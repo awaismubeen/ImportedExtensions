@@ -329,38 +329,6 @@ public extension NSView {
 
 public extension NSImage {
     
-    func saveImage(as fileName: String, fileType: NSBitmapImageRep.FileType = .jpeg, at directory: URL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)) -> Bool {
-        guard let tiffRepresentation = tiffRepresentation, !fileName.isEmpty else {
-            
-            return false }
-        do {
-            try NSBitmapImageRep(data: tiffRepresentation)?
-                .representation(using: fileType, properties: [:])?
-                .write(to: directory.appendingPathComponent(fileName).appendingPathExtension(fileType.pathExtension))
-            return true
-        } catch {
-            
-            return false
-        }
-    }
-    
-    func saveImage(asFileName fileName: String,
-                   withFileType fileType: NSBitmapImageRep.FileType = .jpeg,
-                   atDirectoryURL directory: URL) -> URL? {
-        guard let tiffRepresentation = tiffRepresentation, !fileName.isEmpty else {
-            return nil
-        }
-        do {
-            let url = directory.appendingPathComponent(fileName).appendingPathExtension(fileType.pathExtension)
-            try NSBitmapImageRep(data: tiffRepresentation)?
-                .representation(using: fileType, properties: [:])?
-                .write(to: url)
-            return url
-        } catch {
-            return nil
-        }
-    }
-    
     func tintedImageWithColor(_ color: NSColor) -> NSImage {
         let newImage = NSImage(size: size)
         newImage.lockFocus()
