@@ -138,6 +138,78 @@ extension NSView {
         }
     }
 }
+
+public extension NSColor {
+    class func fromHex(hex: Int,_ alpha: Float = 1) -> NSColor {
+        let red = CGFloat((hex & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((hex & 0xFF00) >> 8) / 255.0
+        let blue = CGFloat((hex & 0xFF)) / 255.0
+        return NSColor(calibratedRed: red, green: green, blue: blue, alpha: 1.0)
+    }
+    convenience init?(hex: String) {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+        var rgb: UInt32 = 0
+        var r: CGFloat = 0.0
+        var g: CGFloat = 0.0
+        var b: CGFloat = 0.0
+        var a: CGFloat = 1.0
+        let length = hexSanitized.count
+        guard Scanner(string: hexSanitized).scanHexInt32(&rgb) else { return nil }
+        if length == 6 {
+            r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+            g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+            b = CGFloat(rgb & 0x0000FF) / 255.0
+        } else if length == 8 {
+            r = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
+            g = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
+            b = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
+            a = CGFloat(rgb & 0x000000FF) / 255.0
+        } else {
+            return nil
+        }
+        self.init(red: r, green: g, blue: b, alpha: a)
+    }
+    func copyColor() -> NSColor {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        return NSColor(red: r, green: g, blue: b, alpha: a)
+    }
+    var toHex: String? {
+        return toHex()
+    }
+    // MARK: - From UIColor to String
+    func toHex(alpha: Bool = false) -> String? {
+        guard let components = cgColor.components, components.count >= 3 else {
+            return nil
+        }
+        let r = Float(components[0])
+        let g = Float(components[1])
+        let b = Float(components[2])
+        var a = Float(1.0)
+        if components.count >= 4 {
+            a = Float(components[3])
+        }
+        if alpha {
+            return String(format: "%02lX%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255), lroundf(a * 255))
+        } else {
+            return String(format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
+        }
+    }
+}
+
+public extension NSCollectionView{
+    func hideVerticalScrollView(){
+        self.enclosingScrollView?.verticalScroller?.alphaValue = 0.0
+    }
+    func hideHorizontalScrollView(){
+        self.enclosingScrollView?.horizontalScroller?.alphaValue = 0.0
+    }
+}
+
 @objc extension NSView {
     var center: CGPoint {
         get { return CGPoint(x: NSMidX(frame), y: NSMidY(frame)) }
@@ -491,17 +563,9 @@ extension NSColor {
     }
 }
 
-extension NSCollectionView{
-    func hideVerticalScrollView(){
-        self.enclosingScrollView?.verticalScroller?.alphaValue = 0.0
-    }
-    func hideHorizontalScrollView(){
-        self.enclosingScrollView?.horizontalScroller?.alphaValue = 0.0
-    }
-}
 
 
-extension NSViewController {
+public extension NSViewController {
     
     func showToast(message: String, font: NSFont) {
         let padding: CGFloat = 20
