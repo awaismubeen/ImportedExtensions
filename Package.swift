@@ -16,8 +16,7 @@ let package = Package(
     targets: [
         .target(
             name: "ImportedExtensions",
-            path: "Sources/ImportedExtensions"
+            dependencies: []
         )
     ]
 )
-
