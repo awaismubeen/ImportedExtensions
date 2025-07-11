@@ -10,7 +10,7 @@ import Foundation
 #if os(macOS)
 import AppKit
 
-extension NSView {
+public extension NSView {
     @available(OSX 10.13, *)
     @IBInspectable var TopLeft: CGFloat {
         get {
