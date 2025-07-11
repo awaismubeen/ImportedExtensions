@@ -159,7 +159,7 @@ extension NSView {
         }
     }
 }
-extension NSImage {
+public extension NSImage {
     func tint(color: NSColor) -> NSImage {
         let image = self.copy() as! NSImage
         image.lockFocus()
@@ -223,13 +223,13 @@ extension NSImage {
     }
     var png: Data? { tiffRepresentation?.bitmap?.png }
 }
-extension Data {
+public extension Data {
     var bitmap: NSBitmapImageRep? { NSBitmapImageRep(data: self) }
 }
 extension NSBitmapImageRep {
     var png: Data? { representation(using: .png, properties: [:]) }
 }
-extension NSView {
+public extension NSView {
     func addShimmerAnimation(shimmerColor: NSColor = .orange) {
         self.wantsLayer = true
         guard let layer = self.layer else { return }
@@ -255,7 +255,7 @@ extension NSView {
     }
 }
 
-extension NSImage {
+public extension NSImage {
     
     func saveImage(as fileName: String, fileType: NSBitmapImageRep.FileType = .jpeg, at directory: URL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)) -> Bool {
         guard let tiffRepresentation = tiffRepresentation, !fileName.isEmpty else {
@@ -359,7 +359,7 @@ extension NSBitmapImageRep.FileType {
         }
     }
 }
-extension String{
+public extension String{
     func image() -> NSImage{
         return NSImage(named: self) ?? NSImage()
     }
