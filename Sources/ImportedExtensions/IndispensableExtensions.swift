@@ -411,26 +411,7 @@ public extension NSImage {
         return NSSize(width: width, height: height)
     }
 }
-extension NSBitmapImageRep.FileType {
-    var pathExtension: String {
-        switch self {
-        case .bmp:
-            return "bmp"
-        case .gif:
-            return "gif"
-        case .jpeg:
-            return "jpg"
-        case .jpeg2000:
-            return "jp2"
-        case .png:
-            return "png"
-        case .tiff:
-            return "tif"
-        @unknown default:
-            return ""
-        }
-    }
-}
+
 public extension String{
     func image() -> NSImage{
         return NSImage(named: self) ?? NSImage()
@@ -474,96 +455,17 @@ public extension String{
     }
 }
 
-extension Double {
+public extension Double {
     func roundTo(places: Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
     }
 }
 
-extension Notification.Name{
-    static let refreshPlans = Notification.Name("refreshPlans")
-    static let minimizeSider = Notification.Name(rawValue: "minimizeSider")
-    static let themeChanged = Notification.Name(rawValue: "themeChanged")
+public extension Notification.Name{
     static let showHUD = Notification.Name(rawValue: "showHUD")
     static let hideHUD = Notification.Name(rawValue: "hideHUD")
-    static let apperanceChanged = Notification.Name(rawValue: "apperanceChanged")
-    static let fbValuesFetched = Notification.Name(rawValue: "fbValuesFetched")
-    static let internetIsBack = Notification.Name(rawValue: "internetIsBack")
 }
-//extension Notification.Name {
-//    static let ClosedPremiumVC = Notification.Name("ClosedPremiumVC")
-//    static let disableUI = Notification.Name("disableUI")
-//    static let enableUI = Notification.Name("enableUI")
-//    static let eBookGenerationCompleted = Notification.Name("eBookGenerationCompleted")
-//    static let queryFromExtension = Notification.Name("queryFromExtension")
-//
-//
-//}
-
-extension NSColor {
-    class func fromHex(hex: Int,_ alpha: Float = 1) -> NSColor {
-        let red = CGFloat((hex & 0xFF0000) >> 16) / 255.0
-        let green = CGFloat((hex & 0xFF00) >> 8) / 255.0
-        let blue = CGFloat((hex & 0xFF)) / 255.0
-        return NSColor(calibratedRed: red, green: green, blue: blue, alpha: 1.0)
-    }
-    convenience init?(hex: String) {
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-        var rgb: UInt32 = 0
-        var r: CGFloat = 0.0
-        var g: CGFloat = 0.0
-        var b: CGFloat = 0.0
-        var a: CGFloat = 1.0
-        let length = hexSanitized.count
-        guard Scanner(string: hexSanitized).scanHexInt32(&rgb) else { return nil }
-        if length == 6 {
-            r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-            g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-            b = CGFloat(rgb & 0x0000FF) / 255.0
-        } else if length == 8 {
-            r = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
-            g = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
-            b = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
-            a = CGFloat(rgb & 0x000000FF) / 255.0
-        } else {
-            return nil
-        }
-        self.init(red: r, green: g, blue: b, alpha: a)
-    }
-    func copyColor() -> NSColor {
-        var r:CGFloat = 0
-        var g:CGFloat = 0
-        var b:CGFloat = 0
-        var a:CGFloat = 0
-        getRed(&r, green: &g, blue: &b, alpha: &a)
-        return NSColor(red: r, green: g, blue: b, alpha: a)
-    }
-    var toHex: String? {
-        return toHex()
-    }
-    // MARK: - From UIColor to String
-    func toHex(alpha: Bool = false) -> String? {
-        guard let components = cgColor.components, components.count >= 3 else {
-            return nil
-        }
-        let r = Float(components[0])
-        let g = Float(components[1])
-        let b = Float(components[2])
-        var a = Float(1.0)
-        if components.count >= 4 {
-            a = Float(components[3])
-        }
-        if alpha {
-            return String(format: "%02lX%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255), lroundf(a * 255))
-        } else {
-            return String(format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
-        }
-    }
-}
-
-
 
 public extension NSViewController {
     
@@ -633,14 +535,7 @@ public extension NSViewController {
 
 }
 
-extension NSApplication {
-    var mainApplication: Bool {
-        return (self.isActive && NSRunningApplication.current.bundleIdentifier == "com.ca.Chat-Bot")
-    }
-}
-
-
-extension NSView {
+public extension NSView {
     func addShadow(shadowColor: NSColor = .lightGray,
                    shadowOpacity: Float = 0.5,
                    shadowOffset: CGSize = CGSize(width: -6, height: 5),
@@ -662,7 +557,7 @@ extension NSView {
     }
 }
 
-extension NSCollectionView {
+public extension NSCollectionView {
     func scrollToLastItem() {
         let lastItemIndex = self.numberOfItems(inSection: 0)
         guard lastItemIndex > 0 else { return }
@@ -704,7 +599,7 @@ extension NSCollectionView {
     }
 }
 
-extension String{
+public extension String{
     
     func height(withConstrainedWidth width: CGFloat, font: NSFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
@@ -718,19 +613,19 @@ extension String{
     }
     
 }
-extension Dictionary where Key: Comparable {
+public extension Dictionary where Key: Comparable {
     func sortedByKey() -> [Key: Value] {
         return Dictionary(uniqueKeysWithValues: sorted { $0.key < $1.key })
     }
 }
 
-extension Dictionary where Value: Equatable {
+public extension Dictionary where Value: Equatable {
     func key(forValue value: Value) -> Key? {
         return first { $0.value == value }?.key
     }
 }
 
-extension NSFont {
+public extension NSFont {
     func fontSizeThatFits(string: String, inLabelWidth tableWidth: CGFloat) -> CGFloat {
         let size = CGSize(width: tableWidth, height: .greatestFiniteMagnitude)
         let attributes: [NSAttributedString.Key: Any] = [.font: self]
@@ -744,7 +639,7 @@ extension NSFont {
     }
 }
 
-extension Date{
+public extension Date{
     func getTimeFromDate()->String{
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm a" // "a" for AM/PM format
@@ -753,7 +648,7 @@ extension Date{
     }
 }
 
-extension String{
+public extension String{
     
     func copyToPasteBoard(){
         let pasteboard = NSPasteboard.general
@@ -766,7 +661,7 @@ extension String{
     }
 }
 
-extension String{
+public extension String{
     func maxConsecutiveNewlines() -> Int {
         var maxCount = 0
         var currentCount = 0
@@ -787,7 +682,7 @@ extension String{
 
 }
 
-extension NSView {
+public extension NSView {
     enum GlowEffect: Float {
         case small = 0.4, normal = 2, big = 15
     }
@@ -812,7 +707,7 @@ extension NSView {
         layer?.add(glowAnimation, forKey: "shadowGlowingAnimation")
     }
 }
-extension NSButton {
+public extension NSButton {
     func shake() {
         let shakeAnimation = CAKeyframeAnimation()
         shakeAnimation.keyPath = "position.x"
@@ -825,28 +720,7 @@ extension NSButton {
     }
 }
 
-
-extension String {
-    func calculateWidth(_ font: NSFont = NSFont.systemFont(ofSize: 16), _ height:CGFloat = 40) -> CGFloat {
-        let maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: height)
-        let attributes: [NSAttributedString.Key: Any] = [.font: font]
-
-        let rect = (self as NSString).boundingRect(
-            with: maxSize,
-            options: [.usesLineFragmentOrigin, .usesFontLeading],
-            attributes: attributes
-        )
-        print("Wrapped width: \(rect.width), height: \(rect.height)")
-        return rect.width
-    }
-    
-    func icon() -> NSImage?{
-        NSImage(named: self)
-    }
-}
-
-
-extension Date{
+public extension Date{
     func stringDate() -> String{
         
         let formatter = DateFormatter()
@@ -856,12 +730,12 @@ extension Date{
     }
 }
 
-extension Notification.Name{
+public extension Notification.Name{
     static let windowDidResize = Notification.Name("windowDidResize")
     static let menuDidChange = Notification.Name("menuDidChange")
 }
 
-extension String {
+public extension String {
     func truncated(afterWords count: Int) -> String {
         let words = self.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
         guard words.count > count else { return self }
@@ -885,13 +759,13 @@ extension String {
 }
 
 
-extension Decimal {
+public extension Decimal {
     var toDouble: Double {
         return NSDecimalNumber(decimal: self).doubleValue
     }
 }
 
-enum NoteBookError: Error {
+public enum CustomError: Error {
     
     case fileNotFound
     case invalidInput(message: String)
