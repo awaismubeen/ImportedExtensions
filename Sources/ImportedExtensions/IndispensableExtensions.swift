@@ -1644,16 +1644,6 @@ public extension String {
     }
 }
 
-internal func MimeType(ext: String?) -> String {
-    return mimeTypes[ext?.lowercased() ?? "" ] ?? DEFAULT_MIME_TYPE
-}
-
-public extension NSURL {
-    public func mimeType() -> String {
-        return MimeType(ext: self.pathExtension)
-    }
-}
-
 public extension URL {
     public func mimeType() -> String {
         return MimeType(ext: self.pathExtension)
