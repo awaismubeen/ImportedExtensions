@@ -1644,22 +1644,9 @@ public extension String {
     }
 }
 
-public extension URL {
-    public func mimeType() -> String {
-        return MimeType(ext: self.pathExtension)
-    }
-}
-
-public extension NSString {
-    public func mimeType() -> String {
-        return MimeType(ext: self.pathExtension)
-    }
-}
 
 public extension String {
-    public func mimeType() -> String {
-        return (self as NSString).mimeType()
-    }
+
     
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
