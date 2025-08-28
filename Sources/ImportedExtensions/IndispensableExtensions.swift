@@ -754,7 +754,7 @@ import Foundation
 import UIKit
 import PDFKit
 
-extension Array {
+public extension Array {
     func unique<T:Hashable>(map: ((Element) -> (T))) -> [Element] {
         var set = Set<T>() //the unique list kept in a Set for fast retrieval
         var arrayOrdered = [Element]() //keeping the unique list of elements but ordered
@@ -778,7 +778,7 @@ public extension Array where Element == Int {
 
 
 
-extension UIView {
+public extension UIView {
     func dropShadow(scale: Bool = true ,shadow:Float) {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = .zero
@@ -800,7 +800,7 @@ extension UIView {
     }
     
 }
-extension UIView {
+public extension UIView {
     
     var getPNGSnapshot: UIImage? {
         self.layer.isOpaque = false
@@ -1054,7 +1054,7 @@ extension UIView {
     }
 }
 
-extension UIView{
+public extension UIView{
     func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?,  paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat) {
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -1146,7 +1146,7 @@ extension UIView{
     }
     
 }
-extension UIView {
+public extension UIView {
     
     var safeTopAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
@@ -1177,7 +1177,7 @@ extension UIView {
     }
 }
 
-extension UIColor {
+public extension UIColor {
     
     func borderColor() -> UIColor {
         return UIColor.init(red: 247/255, green: 247/255, blue: 247/255, alpha: 1)
@@ -1335,7 +1335,7 @@ public extension CAGradientLayer {
     }
     
 }
-extension String {
+public extension String {
     func trim() -> String {
         return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
@@ -1361,13 +1361,8 @@ fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [Stri
 fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
     return input.rawValue
 }
-extension CGFloat {
-    //    func map(from: ClosedRange<CGFloat>, to: ClosedRange<CGFloat>) -> CGFloat {
-    //        let result = ((self - from.lowerBound) / (from.upperBound - from.lowerBound)) * (to.upperBound - to.lowerBound) + to.lowerBound
-    //        return result
-    //    }
-}
-extension UIColor {
+
+public extension UIColor {
     var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         var red: CGFloat = 0
         var green: CGFloat = 0
@@ -1377,9 +1372,7 @@ extension UIColor {
         
         return (red, green, blue, alpha)
     }
-}
 
-extension UIColor {
     // MARK: - Initialization
     convenience init?(hex: String) {
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -1429,24 +1422,24 @@ extension UIColor {
     }
 }
 
-extension UIView {
+public extension UIView {
     class func fromNib<T: UIView>() -> T {
         return Bundle(for: T.self).loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
     }
 }
-extension UITableViewController {
+public extension UITableViewController {
     class func fromNib<T: UIView>() -> T {
         return Bundle(for: T.self).loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
     }
 }
-extension Double {
+public extension Double {
     func rounded(toPlaces places: Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
     }
 }
 
-extension UIButton {
+public extension UIButton {
     func setTintColor(color: UIColor) {
         let templateImage = self.imageView?.image?.withRenderingMode(.alwaysTemplate)
         self.imageView?.tintColor = color
@@ -1461,7 +1454,7 @@ extension UIButton {
 //        return fileURLs
 //    }
 //}
-extension UITextField{
+public extension UITextField{
     
     @IBInspectable var doneAccessory: Bool{
         get{
@@ -1495,7 +1488,7 @@ extension UITextField{
     }
 }
 
-extension UIView {
+public extension UIView {
     
     // OUTPUT 1
     func dropShadow(scale: Bool = true) {
@@ -1524,7 +1517,7 @@ extension UIView {
     }
 }
 
-extension UIView {
+public extension UIView {
     
     @IBInspectable
     var cornerRadius: CGFloat {
@@ -1600,7 +1593,7 @@ extension UIView {
         }
     }
 }
-extension UITextField {
+public extension UITextField {
     @IBInspectable var placeholderColor: UIColor {
         get {
             return attributedPlaceholder?.attribute(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor ?? .clear
@@ -1612,7 +1605,7 @@ extension UITextField {
         }
     }
 }
-extension UIStackView {
+public extension UIStackView {
     func customize(backgroundColor: UIColor = .clear, radiusSize: CGFloat = 0) {
         let subView = UIView(frame: bounds)
         subView.backgroundColor = backgroundColor
@@ -1625,7 +1618,7 @@ extension UIStackView {
     }
 }
 
-extension String {
+public extension String {
     
     func fileName() -> String {
         return NSURL(fileURLWithPath: self).deletingPathExtension?.lastPathComponent ?? "temp"
@@ -1650,128 +1643,30 @@ extension String {
         }
     }
 }
-internal let DEFAULT_MIME_TYPE = "application/octet-stream"
-
-internal let mimeTypes = [
-    "html": "text/html",
-    "htm": "text/html",
-    "shtml": "text/html",
-    "css": "text/css",
-    "xml": "text/xml",
-    "gif": "image/gif",
-    "jpeg": "image/jpeg",
-    "jpg": "image/jpeg",
-    "js": "application/javascript",
-    "atom": "application/atom+xml",
-    "rss": "application/rss+xml",
-    "mml": "text/mathml",
-    "txt": "text/plain",
-    "jad": "text/vnd.sun.j2me.app-descriptor",
-    "wml": "text/vnd.wap.wml",
-    "htc": "text/x-component",
-    "png": "image/png",
-    "tif": "image/tiff",
-    "tiff": "image/tiff",
-    "wbmp": "image/vnd.wap.wbmp",
-    "ico": "image/x-icon",
-    "jng": "image/x-jng",
-    "bmp": "image/x-ms-bmp",
-    "svg": "image/svg+xml",
-    "svgz": "image/svg+xml",
-    "webp": "image/webp",
-    "woff": "application/font-woff",
-    "jar": "application/java-archive",
-    "war": "application/java-archive",
-    "ear": "application/java-archive",
-    "json": "application/json",
-    "hqx": "application/mac-binhex40",
-    "doc": "application/msword",
-    "pdf": "application/pdf",
-    "ps": "application/postscript",
-    "eps": "application/postscript",
-    "ai": "application/postscript",
-    "rtf": "application/rtf",
-    "m3u8": "application/vnd.apple.mpegurl",
-    "xls": "application/vnd.ms-excel",
-    "eot": "application/vnd.ms-fontobject",
-    "ppt": "application/vnd.ms-powerpoint",
-    "wmlc": "application/vnd.wap.wmlc",
-    "kml": "application/vnd.google-earth.kml+xml",
-    "kmz": "application/vnd.google-earth.kmz",
-    "7z": "application/x-7z-compressed",
-    "cco": "application/x-cocoa",
-    "jardiff": "application/x-java-archive-diff",
-    "jnlp": "application/x-java-jnlp-file",
-    "run": "application/x-makeself",
-    "pl": "application/x-perl",
-    "pm": "application/x-perl",
-    "prc": "application/x-pilot",
-    "pdb": "application/x-pilot",
-    "rar": "application/x-rar-compressed",
-    "rpm": "application/x-redhat-package-manager",
-    "sea": "application/x-sea",
-    "swf": "application/x-shockwave-flash",
-    "sit": "application/x-stuffit",
-    "tcl": "application/x-tcl",
-    "tk": "application/x-tcl",
-    "der": "application/x-x509-ca-cert",
-    "pem": "application/x-x509-ca-cert",
-    "crt": "application/x-x509-ca-cert",
-    "xpi": "application/x-xpinstall",
-    "xhtml": "application/xhtml+xml",
-    "xspf": "application/xspf+xml",
-    "zip": "application/zip",
-    "epub": "application/epub+zip",
-    "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-    "mid": "audio/midi",
-    "midi": "audio/midi",
-    "kar": "audio/midi",
-    "mp3": "audio/mpeg",
-    "ogg": "audio/ogg",
-    "m4a": "audio/x-m4a",
-    "ra": "audio/x-realaudio",
-    "3gpp": "video/3gpp",
-    "3gp": "video/3gpp",
-    "ts": "video/mp2t",
-    "mp4": "video/mp4",
-    "mpeg": "video/mpeg",
-    "mpg": "video/mpeg",
-    "mov": "video/quicktime",
-    "webm": "video/webm",
-    "flv": "video/x-flv",
-    "m4v": "video/x-m4v",
-    "mng": "video/x-mng",
-    "asx": "video/x-ms-asf",
-    "asf": "video/x-ms-asf",
-    "wmv": "video/x-ms-wmv",
-    "avi": "video/x-msvideo"
-]
 
 internal func MimeType(ext: String?) -> String {
     return mimeTypes[ext?.lowercased() ?? "" ] ?? DEFAULT_MIME_TYPE
 }
 
-extension NSURL {
+public extension NSURL {
     public func mimeType() -> String {
         return MimeType(ext: self.pathExtension)
     }
 }
 
-extension URL {
+public extension URL {
     public func mimeType() -> String {
         return MimeType(ext: self.pathExtension)
     }
 }
 
-extension NSString {
+public extension NSString {
     public func mimeType() -> String {
         return MimeType(ext: self.pathExtension)
     }
 }
 
-extension String {
+public extension String {
     public func mimeType() -> String {
         return (self as NSString).mimeType()
     }
@@ -1810,7 +1705,7 @@ extension String {
         }
 }
 
-extension UIView {
+public extension UIView {
     func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         let mask = CAShapeLayer()
@@ -1819,7 +1714,7 @@ extension UIView {
     }
 }
 
-extension URL {
+public extension URL {
     func createFolder(folderName: String) -> URL? {
         let fileManager = FileManager.default
         // Get document directory for device, this should succeed
@@ -1847,7 +1742,7 @@ extension URL {
         return nil
     }
 }
-extension FileManager {
+public extension FileManager {
     
     enum ContentDate {
         case created, modified, accessed
@@ -1882,12 +1777,12 @@ extension FileManager {
     }
 }
 
-extension UINavigationController {
+public extension UINavigationController {
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return topViewController?.preferredStatusBarStyle ?? .default
     }
 }
-extension Double {
+public extension Double {
     func round(to places: Int) -> Double {
         let numberFormatter = NumberFormatter()
         numberFormatter.minimumFractionDigits = places
@@ -1900,13 +1795,13 @@ extension Double {
     }
 }
 
-extension Date {
+public extension Date {
     static var currentTimeStamp: Int64{
         return Int64(Date().timeIntervalSince1970 * 1000)
     }
 }
 
-extension UIImage{
+public extension UIImage{
     func convertImageToPDF(Complition:@escaping(Bool,URL?)->()){
         DispatchQueue.global(qos: .userInitiated).async {
             if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
@@ -1950,7 +1845,7 @@ extension UIImage{
     }
 }
 
-extension String{
+public extension String{
     func getTheUniqueFileName()->String{
         var newName = self
         let fileManager = FileManager.default
@@ -1971,7 +1866,7 @@ extension String{
     }
 }
 
-extension NSAttributedString {
+public extension NSAttributedString {
     func rtf() throws -> Data {
         try data(from: .init(location: 0, length: length),
                  documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf,
@@ -1979,7 +1874,7 @@ extension NSAttributedString {
     }
 }
 
-extension String {
+public extension String {
     func capitalizingFirstLetter() -> String {
         let first = self.prefix(1).capitalized
         let other = self.dropFirst()
@@ -1992,7 +1887,7 @@ extension String {
 }
 
 
-extension UIColor {
+public extension UIColor {
     
     var redComponent: CGFloat {
         var red: CGFloat = 0.0
@@ -2023,12 +1918,7 @@ extension UIColor {
     }
 }
 
-extension Notification.Name{
-    static let refreshCategories = Notification.Name("refreshCategories")
-    static let resetViews = Notification.Name("resetViews")
-    static let subscriptionResults = Notification.Name("subscriptionResults")
-}
-extension CALayer {
+public extension CALayer {
     func getImageOfLayer() -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0.0)
         self.render(in: UIGraphicsGetCurrentContext()!)
@@ -2037,13 +1927,13 @@ extension CALayer {
         return img
     }
 }
-extension Array {
+public extension Array {
     mutating func rearrange(from: Int, to: Int) {
         insert(remove(at: from), at: to)
     }
 }
 
-extension UIImage {
+public extension UIImage {
     func resized(withPercentage percentage: CGFloat, isOpaque: Bool = true) -> UIImage? {
         let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
         let format = imageRendererFormat
@@ -2061,7 +1951,7 @@ extension UIImage {
         }
     }
 }
-extension UIView {
+public extension UIView {
     var snapshotImage: UIImage {
         return asImage()
     }
@@ -2074,7 +1964,7 @@ extension UIView {
 }
 
 
-extension NSMutableAttributedString{
+public extension NSMutableAttributedString{
     
     func textColor (_ color : UIColor) -> NSMutableAttributedString {
         
@@ -2234,22 +2124,8 @@ extension NSMutableAttributedString{
         self.addAttributes(attributes, range: NSRange.init(location: 0, length: length))
     }
 }
-extension UIImage{
-    //    func saveImage(as fileName: String, fileType: NSBitmapImageRep.FileType = .jpeg, at directory: URL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)) -> Bool {
-    //        guard let tiffRepresentation = tiffRepresentation, !fileName.isEmpty else {
-    //
-    //            return false }
-    //        do {
-    //            try NSBitmapImageRep(data: tiffRepresentation)?
-    //                .representation(using: fileType, properties: [:])?
-    //                .write(to: directory.appendingPathComponent(fileName).appendingPathExtension(fileType.pathExtension))
-    //            return true
-    //        } catch {
-    //
-    //            print(error)
-    //            return false
-    //        }
-    //    }
+public extension UIImage{
+  
     func saveImage(as fileName: String,at directory: URL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)) -> Bool {
         var directoryPath =  try! FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         directoryPath = directory.appendingPathComponent("\(fileName).png")
@@ -2263,8 +2139,9 @@ extension UIImage{
         }
         return false
     }
+    
 }
-extension UIImage {
+public extension UIImage {
     func pngWrite(to url: URL, options: Data.WritingOptions = .atomic) -> Bool {
         do {
             try self.pngData()?.write(to: url, options: options)
@@ -2284,7 +2161,7 @@ extension UIImage {
         }
     }
 }
-extension UIViewController {
+public extension UIViewController {
     
     var isModal: Bool {
         
@@ -2294,8 +2171,23 @@ extension UIViewController {
         
         return presentingIsModal || presentingIsNavigation || presentingIsTabBar
     }
+    
+    func close(animated: Bool = true) {
+        if let navigationController = self.navigationController {
+            if navigationController.viewControllers.first != self {
+                // If it's not the root VC, it was pushed → pop
+                navigationController.popViewController(animated: animated)
+                return
+            }
+        }
+        
+        if presentingViewController != nil {
+            // If presented modally → dismiss
+            dismiss(animated: animated, completion: nil)
+        }
+    }
 }
-extension UIView {
+public extension UIView {
     
     // ->1
     enum ShimmerDirection: Int {
@@ -2360,7 +2252,7 @@ extension UIView {
     
 }
 
-extension UIView {
+public extension UIView {
     func addShadowToBottomEdge(color: UIColor = .lightGray, opacity: Float = 0.4, offset: CGSize = CGSize(width: 0, height: 4), radius: CGFloat = 4) {
         // Add shadow to the bottom edge
         self.layer.shadowColor = color.cgColor
@@ -2370,7 +2262,7 @@ extension UIView {
     }
 }
 
-extension UIImage {
+public extension UIImage {
     
     func toBase64String() -> String? {
         guard let pngData = self.pngData() else { return nil }
