@@ -761,6 +761,19 @@ public extension UIViewController {
     }
 }
 
+extension UIStoryboard {
+    /// Instantiate a view controller generically by its class type.
+    /// The storyboard ID **must** match the class name (or you can pass a custom ID).
+    func instantiateViewController<T: UIViewController>(ofType type: T.Type,
+                                                        identifier: String? = nil) -> T {
+        let id = identifier ?? String(describing: type)
+        guard let vc = instantiateViewController(withIdentifier: id) as? T else {
+            fatalError("❌ Could not find view controller with ID '\(id)' of type \(T.self)")
+        }
+        return vc
+    }
+}
+
 public extension Array {
     func unique<T:Hashable>(map: ((Element) -> (T))) -> [Element] {
         var set = Set<T>() //the unique list kept in a Set for fast retrieval
