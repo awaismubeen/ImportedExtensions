@@ -754,6 +754,13 @@ import Foundation
 import UIKit
 import PDFKit
 
+public extension UIViewController {
+    static func instantiate(from storyboardName: String = "Main") -> Self {
+        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+        return storyboard.instantiateViewController(ofType: self)
+    }
+}
+
 public extension Array {
     func unique<T:Hashable>(map: ((Element) -> (T))) -> [Element] {
         var set = Set<T>() //the unique list kept in a Set for fast retrieval
